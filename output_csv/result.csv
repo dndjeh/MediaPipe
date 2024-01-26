@@ -1,3 +1,0 @@
-Image,Right_Elbow_Angle,Left_Elbow_Angle,Right_Shoulder_Angle,Left_Shoulder_Angle,Right_Knee_Angle,Left_Knee_Angle,Right_Elbow_Angle_Avg,Right_Elbow_Angle_Max,Right_Elbow_Angle_Min,Left_Elbow_Angle_Avg,Left_Elbow_Angle_Max,Left_Elbow_Angle_Min,Right_Shoulder_Angle_Avg,Right_Shoulder_Angle_Max,Right_Shoulder_Angle_Min,Left_Shoulder_Angle_Avg,Left_Shoulder_Angle_Max,Left_Shoulder_Angle_Min,Right_Knee_Angle_Avg,Right_Knee_Angle_Max,Right_Knee_Angle_Min,Left_Knee_Angle_Avg,Left_Knee_Angle_Max,Left_Knee_Angle_Min
-pose.jpg,354,88,41,55,189,192,304.0,354.0,254.0,142.5,197.0,88.0,45.0,49.0,41.0,37.5,55.0,20.0,167.5,189.0,146.0,139.5,192.0,87.0
-pose1.jpg,254,197,49,20,146,87,,,,,,,,,,,,,,,,,,

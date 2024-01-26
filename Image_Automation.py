@@ -76,22 +76,10 @@ def extract_skeleton(image_path):
     return landmarks, image, right_elbow_angle, left_elbow_angle, right_shoulder_angle, left_shoulder_angle, right_knee_angle, left_knee_angle
 
 
-def csv_file(all_angles, name_prefix):
-    # 평균, 최대, 최소 값 계산
-    avg_angle = sum(all_angles) / len(all_angles)
-    max_angle = max(all_angles)
-    min_angle = min(all_angles)
-
-    # 데이터프레임에 추가
-    return pd.DataFrame({
-        f'{name_prefix}_Avg': [avg_angle],
-        f'{name_prefix}_Max': [max_angle],
-        f'{name_prefix}_Min': [min_angle]
-    })
-
 def process_images(folder_path, output_csv, output_image_folder):
+    
     data = []
-
+    
     os.makedirs(output_image_folder, exist_ok=True)
 
     all_right_elbow_angles = []
@@ -125,21 +113,28 @@ def process_images(folder_path, output_csv, output_image_folder):
             output_image_path = os.path.join(output_image_folder, f"annotated_{filename}")
             cv2.imwrite(output_image_path, annotated_image)
 
+
     df = pd.DataFrame(data)
+    df_mean =pd.DataFrame({'mean':df.iloc[:,1:].mean()})
+    df_max = pd.DataFrame({'max':df.iloc[:,1:].max()})
+    df_min = pd.DataFrame({'min':df.iloc[:,1:].min()})
+    df_result = pd.concat([df_mean,df_max,df_min],axis=1)
+    df_result = df_result.reset_index()
 
-    # csv_file 함수를 사용하여 데이터프레임에 추가
-    df = pd.concat([df, csv_file(all_right_elbow_angles, 'Right_Elbow_Angle'),
-                   csv_file(all_left_elbow_angles, 'Left_Elbow_Angle'),
-                   csv_file(all_right_shoulder_angles, 'Right_Shoulder_Angle'),
-                   csv_file(all_left_shoulder_angles, 'Left_Shoulder_Angle'),
-                   csv_file(all_right_knee_angles, 'Right_Knee_Angle'),
-                   csv_file(all_left_knee_angles, 'Left_Knee_Angle')], axis=1)
-
+    total_output_csv_path = 'C:/JH/Python/Skeleton/capstoneEX/output_csv/total_result.csv'
     df.to_csv(output_csv, index=False)
+    df_result.to_csv(  total_output_csv_path, index=False)
     print(df)
+    print(df_result)
+
 
 # 인풋 이미지 폴더 경로와 아웃 풋 이미지 폴더 경로 설정, 그리고 각 관절의 각도를 저장할 csv 파일 저장 경로
 image_folder_path = 'C:/JH/Python/Skeleton/capstoneEX/input_image'
-output_csv_path = 'C:/JH/Python/Skeleton/capstoneEX/output_csv/result.csv'
+output_csv_path = 'C:/JH/Python/Skeleton/capstoneEX/output_csv/angle.csv'
 output_image_folder = 'C:/JH/Python/Skeleton/capstoneEX/output_image'
 process_images(image_folder_path, output_csv_path, output_image_folder)
+
+# avg_angle = df.iloc[:,1:].mean
+# max_angle = df.iloc[:,1:].max
+# min_angle = df.iloc[:,1:].min
+#df.loc['Mean'] = avg_angle

@@ -1,0 +1,7 @@
+index,mean,max,min
+Right_Elbow_Angle,304.0,354,254
+Left_Elbow_Angle,142.5,197,88
+Right_Shoulder_Angle,45.0,49,41
+Left_Shoulder_Angle,37.5,55,20
+Right_Knee_Angle,167.5,189,146
+Left_Knee_Angle,139.5,192,87
