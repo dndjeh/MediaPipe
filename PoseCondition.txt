@@ -1,0 +1,17 @@
+
+    if((right_elbow_angle < 354 and right_elbow_angle > 254) and
+        (left_elbow_angle < 197 and left_elbow_angle > 88) and 
+        (right_shoulder_angle < 49 and right_shoulder_angle > 41) and
+        (left_shoulder_angle < 55 and left_shoulder_angle > 20) and
+        (right_knee_angle < 189 and right_knee_angle > 146) and
+        (left_knee_angle < 192 and left_knee_angle > 87)) :
+        label = 'zzz'
+    
+    if((right_elbow_angle < 354 and right_elbow_angle > 254) and
+        (left_elbow_angle < 197 and left_elbow_angle > 88) and 
+        (right_shoulder_angle < 49 and right_shoulder_angle > 41) and
+        (left_shoulder_angle < 55 and left_shoulder_angle > 20) and
+        (right_knee_angle < 189 and right_knee_angle > 146) and
+        (left_knee_angle < 192 and left_knee_angle > 87)) :
+        label = 'zzz'
+    

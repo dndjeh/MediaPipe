@@ -2,7 +2,9 @@ import os
 import cv2
 import mediapipe as mp
 import pandas as pd
+from Code_to_Txt import change
 from Calculate_Angle import calculateAngle  # Assuming you have a Calculate_Angle module
+import csv
 
 mp_pose = mp.solutions.pose
 def extract_skeleton(image_path):
@@ -121,20 +123,15 @@ def process_images(folder_path, output_csv, output_image_folder):
     df_result = pd.concat([df_mean,df_max,df_min],axis=1)
     df_result = df_result.reset_index()
 
-    total_output_csv_path = 'C:/JH/Python/Skeleton/capstoneEX/output_csv/total_result.csv'
+    total_output_csv_path = 'C:/JaeHyeok/Capstone/MediaPipe/output_csv/total_result.csv'
     df.to_csv(output_csv, index=False)
-    df_result.to_csv(  total_output_csv_path, index=False)
-    print(df)
-    print(df_result)
+    df_result.to_csv(total_output_csv_path, index=False)
+
+    change(df_result)
 
 
 # 인풋 이미지 폴더 경로와 아웃 풋 이미지 폴더 경로 설정, 그리고 각 관절의 각도를 저장할 csv 파일 저장 경로
-image_folder_path = 'C:/JH/Python/Skeleton/capstoneEX/input_image'
-output_csv_path = 'C:/JH/Python/Skeleton/capstoneEX/output_csv/angle.csv'
-output_image_folder = 'C:/JH/Python/Skeleton/capstoneEX/output_image'
+image_folder_path = 'C:/JaeHyeok/Capstone/MediaPipe/input_image'
+output_csv_path = 'C:/JaeHyeok/Capstone/MediaPipe/output_csv/angle.csv'
+output_image_folder = 'C:/JaeHyeok/Capstone/MediaPipe/output_image'
 process_images(image_folder_path, output_csv_path, output_image_folder)
-
-# avg_angle = df.iloc[:,1:].mean
-# max_angle = df.iloc[:,1:].max
-# min_angle = df.iloc[:,1:].min
-#df.loc['Mean'] = avg_angle
