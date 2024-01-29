@@ -125,7 +125,7 @@ def process_images(folder_path, output_csv, output_image_folder):
 
     total_output_csv_path = '../MediaPipe/output_csv/total_result.csv'
     df.to_csv(output_csv, index=False)
-    df_result.to_csv(total_output_csv_path, index=False)    #mean, max, min을 저장하는 csv파일
+    df_result.to_csv(total_output_csv_path, index=False)    #mean, max, min을 저장하는 csv파일 생성
 
     #저장된 csv 파일에 값을 가져와서 조건문을 txt로 생성
     condition(df_result)

@@ -1,5 +1,4 @@
 before_code = """
-
 import cv2
 import Calculate_Angle as ca
 import matplotlib.pyplot as plt
@@ -95,6 +94,6 @@ def pose_detection(landmarks, output_image, mp_pose, display=False):
     with open('Classify_Pose.py', 'w', encoding='utf-8') as py_file:
         py_file.write(full_code)
     
-    #위에서 만든 Classify_Pose.py파일을 불러와서 return 한다.
+    #위에서 만든 Classify_Pose.py파일을 불러와서 main.py로 return 한다.
     from Classify_Pose import classifyPose
     return classifyPose(landmarks, output_image, mp_pose, display=False)
