@@ -1,4 +1,5 @@
-def change(df_result):
+def condition(df_result):
+    '''csv 파일에 값을 가져와서 조건문을 txt로 생성'''
     template_code = """
     if((right_elbow_angle < {Right_Elbow_Angle_MAX} and right_elbow_angle > {Right_Elbow_Angle_MIN}) and
         (left_elbow_angle < {Left_Elbow_Angle_MAX} and left_elbow_angle > {Left_Elbow_Angle_MIN}) and 
@@ -9,7 +10,7 @@ def change(df_result):
         label = 'zzz'
     """
 
-    with open(r'C:\JaeHyeok\Capstone\MediaPipe\PoseCondition.txt', 'a') as file:
+    with open(r'C:\JH\Python\MediaPipe\PoseCondition.txt', 'a') as file:
         template_code = template_code.format(
             Right_Elbow_Angle_MAX=df_result.loc[0, 'max'],
             Right_Elbow_Angle_MIN=df_result.loc[0, 'min'],
@@ -28,4 +29,4 @@ def change(df_result):
 
 
     # 최종 코드 출력 또는 사용
-    print(template_code)
+    #print(template_code)

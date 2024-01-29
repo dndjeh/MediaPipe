@@ -1,4 +1,4 @@
-
+before_code = """
 
 import cv2
 import Calculate_Angle as ca
@@ -52,24 +52,14 @@ def classifyPose(landmarks, output_image, mp_pose, display=False):
                                     landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
                                     landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value])
                    
-    
-    if ((right_elbow_angle > 120 and right_elbow_angle < 160 and right_shoulder_angle > 30 and right_shoulder_angle < 80)
-        or (left_elbow_angle > 200 and left_elbow_angle < 230 and left_shoulder_angle > 30 and left_shoulder_angle < 80)):
-        label = 'Pointing Pose'
-                
-   
-    if left_knee_angle > 165 and left_knee_angle < 195 and right_knee_angle > 165 and right_knee_angle < 195:      
-        if left_elbow_angle > 100 and left_elbow_angle < 125 and right_elbow_angle > 230 and right_elbow_angle < 250:
-            label = 'Base Pose'
-            
-    if((right_elbow_angle < 354 and right_elbow_angle > 254) and
-        (left_elbow_angle < 197 and left_elbow_angle > 88) and 
-        (right_shoulder_angle < 49 and right_shoulder_angle > 41) and
-        (left_shoulder_angle < 55 and left_shoulder_angle > 20) and
-        (right_knee_angle < 189 and right_knee_angle > 146) and
-        (left_knee_angle < 192 and left_knee_angle > 87)) :
-        label = 'zzz'
-    
+    """
+
+#PoseCondition.txt 파일을 읽어서 condition_code에 저장한다.
+code_path = 'C:\JH\Python\MediaPipe\PoseCondition.txt'
+with open(code_path, 'r') as file:
+    condition_code = file.read()
+
+after_code = """
     
     if label != 'Unknown Pose':
         color = (0, 255, 0)  
@@ -95,3 +85,16 @@ def classifyPose(landmarks, output_image, mp_pose, display=False):
         plt.axis('off');
     else :
         return output_image, label
+"""
+
+
+def pose_detection(landmarks, output_image, mp_pose, display=False):
+    full_code = before_code + condition_code + after_code   #모든 코드를 합친다.
+
+    #위 full_code를 Classify_Pose.py파일로 만들어 준다.
+    with open('Classify_Pose.py', 'w', encoding='utf-8') as py_file:
+        py_file.write(full_code)
+    
+    #위에서 만든 Classify_Pose.py파일을 불러와서 return 한다.
+    from Classify_Pose import classifyPose
+    return classifyPose(landmarks, output_image, mp_pose, display=False)

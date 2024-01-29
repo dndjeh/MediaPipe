@@ -1,13 +1,7 @@
-import math
 import cv2
-import numpy as np
-from time import time
 import mediapipe as mp
 import matplotlib.pyplot as plt
-import Classify_Pose as cp
-
-import cv2
-from cvzone.HandTrackingModule import HandDetector
+import Txt_to_Code as ttc
 
 # Initializing mediapipe pose class
 # mediapipe pose class를 초기화 한다.
@@ -93,16 +87,6 @@ cv2.namedWindow('Pose Classification', cv2.WINDOW_NORMAL)
 w = camera_video.get(cv2.CAP_PROP_FRAME_WIDTH)
 h = camera_video.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
-
-# 동영상 크기 변환
-# camera_video.set(cv2.CAP_PROP_FRAME_WIDTH, 640) # 가로
-# camera_video.set(cv2.CAP_PROP_FRAME_HEIGHT, 640) # 세로
-
-# 변환된 동영상 크기 정보
-w = camera_video.get(cv2.CAP_PROP_FRAME_WIDTH)
-h = camera_video.get(cv2.CAP_PROP_FRAME_HEIGHT)
-
-
 # Iterate until the webcam is accessed successfully.
 with mp_hands.Hands(
     model_complexity=0,
@@ -151,7 +135,7 @@ with mp_hands.Hands(
         if landmarks:
             
             # Perform the Pose Classification.
-            frame, _ = cp.classifyPose(landmarks, frame, mp_pose, display=False)
+            frame, _ = ttc.pose_detection(landmarks, frame, mp_pose, display=False)
         
         # Display the frame.
         cv2.imshow('Pose Classification', frame)
