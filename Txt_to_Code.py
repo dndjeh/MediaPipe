@@ -55,7 +55,7 @@ def classifyPose(landmarks, output_image, mp_pose, display=False):
     """
 
 #PoseCondition.txt 파일을 읽어서 condition_code에 저장한다.
-code_path = 'C:\JH\Python\MediaPipe\PoseCondition.txt'
+code_path = '..\MediaPipe\PoseCondition.txt'
 with open(code_path, 'r') as file:
     condition_code = file.read()
 
