@@ -7,12 +7,40 @@
     if left_knee_angle > 165 and left_knee_angle < 195 and right_knee_angle > 165 and right_knee_angle < 195:      
         if left_elbow_angle > 100 and left_elbow_angle < 125 and right_elbow_angle > 230 and right_elbow_angle < 250:
             label = 'Base Pose'
-            
-    if((right_elbow_angle < 354 and right_elbow_angle > 254) and
-        (left_elbow_angle < 197 and left_elbow_angle > 88) and 
-        (right_shoulder_angle < 49 and right_shoulder_angle > 41) and
-        (left_shoulder_angle < 55 and left_shoulder_angle > 20) and
-        (right_knee_angle < 189 and right_knee_angle > 146) and
-        (left_knee_angle < 192 and left_knee_angle > 87)) :
-        label = 'zzz'
+
+    if((right_elbow_angle < 259 and right_elbow_angle > 176) and
+        (left_elbow_angle < 179 and left_elbow_angle > 105) and 
+        (right_shoulder_angle < 14 and right_shoulder_angle > 8) and
+        (left_shoulder_angle < 20 and left_shoulder_angle > 17)) :
+        label = 'catch'
+    
+    if((right_elbow_angle < 259 and right_elbow_angle > 176) and
+        (left_elbow_angle < 179 and left_elbow_angle > 105) and 
+        (right_shoulder_angle < 14 and right_shoulder_angle > 8) and
+        (left_shoulder_angle < 20 and left_shoulder_angle > 12)) :
+        label = 'catch'
+    
+    if((right_elbow_angle < 259 and right_elbow_angle > 41) and
+        (left_elbow_angle < 184 and left_elbow_angle > 105) and 
+        (right_shoulder_angle < 18 and right_shoulder_angle > 8) and
+        (left_shoulder_angle < 20 and left_shoulder_angle > 9)) :
+        label = 'catch'
+    
+    if((right_elbow_angle < 198 and right_elbow_angle > 171) and
+        (left_elbow_angle < 176 and left_elbow_angle > 160) and 
+        (right_shoulder_angle < 14 and right_shoulder_angle > 8) and
+        (left_shoulder_angle < 17 and left_shoulder_angle > 8)) :
+        label = 'catch'
+    
+    if((right_elbow_angle < 200 and right_elbow_angle > 172) and
+        (left_elbow_angle < 186 and left_elbow_angle > 164) and 
+        (right_shoulder_angle < 12 and right_shoulder_angle > 8) and
+        (left_shoulder_angle < 12 and left_shoulder_angle > 7)) :
+        label = 'sdaggsdg'
+    
+    if((right_elbow_angle < 200 and right_elbow_angle > 172) and
+        (left_elbow_angle < 186 and left_elbow_angle > 166) and 
+        (right_shoulder_angle < 9 and right_shoulder_angle > 8) and
+        (left_shoulder_angle < 12 and left_shoulder_angle > 8)) :
+        label = 'sdaggsdg'
     

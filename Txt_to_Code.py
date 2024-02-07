@@ -4,7 +4,7 @@ import Calculate_Angle as ca
 import matplotlib.pyplot as plt
 
 def classifyPose(landmarks, output_image, mp_pose, display=False):
-    '''자세 분류 함수'''
+    '''자세 분류 함수, 자동완성 코드'''
     # Initialize the label of the pose. It is not known at this stage.
     label = 'Unknown Pose'
 

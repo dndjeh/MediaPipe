@@ -1,5 +1,4 @@
 
-
 import cv2
 import Calculate_Angle as ca
 import matplotlib.pyplot as plt
@@ -61,14 +60,18 @@ def classifyPose(landmarks, output_image, mp_pose, display=False):
     if left_knee_angle > 165 and left_knee_angle < 195 and right_knee_angle > 165 and right_knee_angle < 195:      
         if left_elbow_angle > 100 and left_elbow_angle < 125 and right_elbow_angle > 230 and right_elbow_angle < 250:
             label = 'Base Pose'
-            
-    if((right_elbow_angle < 354 and right_elbow_angle > 254) and
-        (left_elbow_angle < 197 and left_elbow_angle > 88) and 
-        (right_shoulder_angle < 49 and right_shoulder_angle > 41) and
-        (left_shoulder_angle < 55 and left_shoulder_angle > 20) and
-        (right_knee_angle < 189 and right_knee_angle > 146) and
-        (left_knee_angle < 192 and left_knee_angle > 87)) :
-        label = 'zzz'
+    
+    if((right_elbow_angle < 205 and right_elbow_angle > 182) and
+        (left_elbow_angle < 198 and left_elbow_angle > 190) and 
+        (right_shoulder_angle < 20 and right_shoulder_angle > 6) and
+        (left_shoulder_angle < 7 and left_shoulder_angle > 5)) :
+        label = 'dsgagsdgggs'
+    
+    if((right_elbow_angle < 317 and right_elbow_angle > 182) and
+        (left_elbow_angle < 198 and left_elbow_angle > 25) and 
+        (right_shoulder_angle < 20 and right_shoulder_angle > 0) and
+        (left_shoulder_angle < 17 and left_shoulder_angle > 5)) :
+        label = 'vert'
     
     
     if label != 'Unknown Pose':
@@ -77,8 +80,8 @@ def classifyPose(landmarks, output_image, mp_pose, display=False):
    
     cv2.putText(output_image, label, (10, 30), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
 
-    cv2.putText(output_image, "left_knee_angle: "+str(left_knee_angle), (10, 60), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-    cv2.putText(output_image, "right_knee_angle: "+str(right_knee_angle), (10, 90), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "left_knee_angle: "+str(left_knee_angle), (10, 60), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "right_knee_angle: "+str(right_knee_angle), (10, 90), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
 
     cv2.putText(output_image, "left_elbow_angle: "+str(left_elbow_angle), (10, 120), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
     cv2.putText(output_image, "right_elbow_angle: "+str(right_elbow_angle), (10, 150), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
