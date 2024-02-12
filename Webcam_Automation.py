@@ -14,8 +14,11 @@ def extract_skeleton(image_path):
     # Read the image
     image = cv2.imread(image_path)
     target_size = (640, 853)
-    image = cv2.resize(image, target_size)
     
+    #------------------------------------------
+    #image = cv2.resize(image, target_size)
+    #------------------------------------------
+
     # Convert BGR image to RGB
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     

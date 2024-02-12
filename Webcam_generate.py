@@ -3,12 +3,12 @@ import time
 import os
 import Webcam_Automation  as WA
 import label_write
-#----------------------------------------- 자세 이름 작성하기
+#----------------------------------------- 자세 이름
 label = label_write.label
 #-----------------------------------------
 
 def capture_frames(label):
-    '''웹캠 영상을 60프레임씩 자동으로 캡쳐한 후 저장'''
+    '''웹캠 영상을 ?프레임씩 자동으로 캡쳐한 후 저장'''
     # Open a connection to the webcam (0 is usually the default webcam)
     cap = cv2.VideoCapture(0)
 
@@ -44,7 +44,7 @@ def capture_frames(label):
             cv2.imshow('Webcam Feed', frame)
 
             # Save the frame as an image every 60 frames
-            if frame_count % 60 == 0:
+            if frame_count % 80 == 0:
                 image_name = f"captured_frame_{int(time.time())}.jpg"
                 save_path = os.path.join(save_directory+"/input_"+label, image_name)
                 cv2.imwrite(f'{save_path}', frame)

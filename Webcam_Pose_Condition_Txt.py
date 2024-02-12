@@ -2,6 +2,13 @@ import Webcam_generate as WG
 
 def condition(df_result):
     '''csv 파일에 값을 가져와서 조건문을 txt로 생성'''
+    # template_code = f"""
+    # if((right_knee_angle < {df_result.loc[4, 'max']} and right_knee_angle > {df_result.loc[4, 'min']}) and
+    #     (left_knee_angle < {df_result.loc[5, 'max']} and left_knee_angle > {df_result.loc[5, 'min']})) :
+    #     label = '{WG.label}'
+    # """
+    
+    '''상체 위주'''
     template_code = f"""
     if((right_elbow_angle < {df_result.loc[0, 'max']} and right_elbow_angle > {df_result.loc[0, 'min']}) and
         (left_elbow_angle < {df_result.loc[1, 'max']} and left_elbow_angle > {df_result.loc[1, 'min']}) and 
@@ -9,7 +16,6 @@ def condition(df_result):
         (left_shoulder_angle < {df_result.loc[3, 'max']} and left_shoulder_angle > {df_result.loc[3, 'min']})) :
         label = '{WG.label}'
     """
-        # (right_knee_angle < {df_result.loc[4, 'max']} and right_knee_angle > {df_result.loc[4, 'min']}) and
-        # (left_knee_angle < {df_result.loc[5, 'max']} and left_knee_angle > {df_result.loc[5, 'min']})
+
     with open(r'..\MediaPipe\PoseCondition.txt', 'a') as file:
         file.write(template_code)

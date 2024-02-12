@@ -19,7 +19,8 @@ def extract_skeleton(image_path):
     # Read the image
     image = cv2.imread(image_path)
     target_size = (640, 853)
-    image = cv2.resize(image, target_size)
+    
+    #image = cv2.resize(image, target_size)
     
     # Convert BGR image to RGB
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -139,5 +140,5 @@ def process_images(folder_path, output_csv, output_image_folder,label):
 
 image_folder_path = '../MediaPipe/input_image'
 output_csv_path = '../MediaPipe/output_csv/angle.csv'
-output_image_folder = '../MediaPipe/output_image'
+output_image_folder = 'C:/JaeHyeok/Capstone/MediaPipe/output_image'
 process_images(image_folder_path, output_csv_path, output_image_folder,label)
