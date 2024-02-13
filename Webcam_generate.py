@@ -51,7 +51,7 @@ def capture_frames(label):
                 print(f"Saved {save_path}")
 
             frame_count += 1
-
+                
             # Exit the loop when the 'q' key is pressed
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break

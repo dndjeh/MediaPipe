@@ -80,6 +80,13 @@ def classifyPose(landmarks, output_image, mp_pose, display=False):
         label = 'Base'
     
     
+    if((right_elbow_angle < 219 and right_elbow_angle > 159) and
+        (left_elbow_angle < 216 and left_elbow_angle > 174) and 
+        (right_shoulder_angle < 28 and right_shoulder_angle > 6) and
+        (left_shoulder_angle < 355 and left_shoulder_angle > 5)) :
+        label = 'asdfasdfsdf'
+    
+    
     if label != 'Unknown Pose':
         color = (0, 255, 0)  
     
