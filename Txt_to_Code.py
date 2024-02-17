@@ -59,7 +59,7 @@ with open(code_path, 'r') as file:
     condition_code = file.read()
 
 after_code = """
-    
+
     if label != 'Unknown Pose':
         color = (0, 255, 0)  
     

@@ -26,5 +26,3 @@
         (left_shoulder_angle < 24 and left_shoulder_angle > 12)) :
         label = 'Base'
     
-
-    
