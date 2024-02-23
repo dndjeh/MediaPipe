@@ -1,20 +1,7 @@
-import math
 import cv2
-import numpy as np
-from time import time
 import mediapipe as mp
 import matplotlib.pyplot as plt
 import Txt_to_Code as ttc
-import Calculate_Angle as ca
-import Detecting_Repetitive_Behavior as dr
-#import Txt_to_Code as ttc
-import ssl # 맥북용
-
-# 맥북용
-ssl._create_default_https_context = ssl._create_unverified_context
-
-# choice 받기
-#choice= int(input("사진으로 포즈 뽑기: 1번\n동영상으로 포즈뽑기: 2번\n"))
 
 # Initializing mediapipe pose class
 # mediapipe pose class를 초기화 한다.
@@ -60,7 +47,7 @@ def detectPose(image, pose, display=True):
 
     # detection landmarks를 저장할 빈 list 초기화
     landmarks = []
-
+    
     # landmark가 감지 되었는지 확인
     if results.pose_landmarks:
 
@@ -90,25 +77,13 @@ def detectPose(image, pose, display=True):
       return output_image, landmarks
 # pose detection function start
 
-choice= int(input("동영상으로 실행: 1번\n실시간으로 실행: 2번\n"))
-
-
-if choice==1:
-    '''동영상 input.mov 읽기'''
-    # Read the video file
-    video_file = "강의영상1.mp4"
-    camera_video = cv2.VideoCapture(video_file)
-
-elif choice==2:
-    '''실시간 웹캠 포즈 인식'''
-    # Initialize the VideoCapture object to read from the webcam.
-    camera_video = cv2.VideoCapture(0)
-
+'''실시간 웹캠 포즈 인식'''
+# Initialize the VideoCapture object to read from the webcam.
+camera_video = cv2.VideoCapture(0)
 
 # Initialize a resizable window.
 cv2.namedWindow('Pose Classification', cv2.WINDOW_NORMAL)
 
-# 동영상 크기 변환
 w = camera_video.get(cv2.CAP_PROP_FRAME_WIDTH)
 h = camera_video.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
@@ -121,7 +96,7 @@ with mp_hands.Hands(
         
         # Read a frame.
         ok, frame = camera_video.read()
-        
+
         # Check if frame is not read properly.
         if not ok:
             
@@ -129,8 +104,7 @@ with mp_hands.Hands(
             continue
         
         # Flip the frame horizontally for natural (selfie-view) visualization.
-        if choice==2:
-            frame = cv2.flip(frame, 1)
+        frame = cv2.flip(frame, 1)
         
         # Get the width and height of the frame
         frame_height, frame_width, _ =  frame.shape
@@ -140,7 +114,7 @@ with mp_hands.Hands(
         #frame = cv2.resize(frame, (1280, 1280))
         # Perform Pose landmark detection.
         frame, landmarks = detectPose(frame, pose_video, display=False)
-        
+
         #---------------------------------------------------
         frame.flags.writeable = False
         results = hands.process(frame)
@@ -158,39 +132,27 @@ with mp_hands.Hands(
                     mp_drawing_styles.get_default_hand_connections_style())
         #---------------------------------------------------
         # Check if the landmarks are detected.
-        # if landmarks:
-            
-        #     # Perform the Pose Classification.
-            
-        #     if choice==2:
-        #         frame, _ = cp.classifyPose(landmarks, frame, mp_pose, display=False)
-        #         dr.DetectingRePetitiveBehavior(landmarks)
-        #         '''
-        #     else: 
-        #         frame, _ = ttc.pose_detection(landmarks, frame, mp_pose, display=False)
-        # '''
-                
         if landmarks:
-                frame, _ = ttc.pose_detection(landmarks, frame, mp_pose, display=False)
-                dr.DetectingRePetitiveBehavior(landmarks)
-
-           
-
+            
+            # Perform the Pose Classification.
+            frame, _ = ttc.pose_detection(landmarks, frame, mp_pose, display=False)
+        
         # Display the frame.
         cv2.imshow('Pose Classification', frame)
         
+        frame_height, frame_width, _ =  frame.shape
+
         # Wait until a key is pressed.
         # Retreive the ASCII code of the key pressed
         k = cv2.waitKey(1) & 0xFF
         
         # Check if 'ESC' is pressed.
         if(k == 27):
-            dr.Find_RB()
+            
             # Break the loop.
             break
 
 # Release the VideoCapture object and close the windows.
-# if choice==1:
-#     print(frame.shape)
+print(frame.shape)
 camera_video.release()
 cv2.destroyAllWindows()

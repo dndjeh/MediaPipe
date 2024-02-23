@@ -18,3 +18,33 @@ def calculateAngle(landmark1, landmark2, landmark3):
     
     # Return the calculated angle.
     return int(angle)
+
+def calculatePoseDifference(pose1, pose2):
+    """
+    Calculate the difference between two poses.
+
+    Args:
+        pose1: List of landmarks for the first pose.
+        pose2: List of landmarks for the second pose.
+
+    Returns:
+        difference: Numeric value representing the pose difference.
+    """
+    # Here, you can define how to calculate the difference between two poses.
+    # One simple way is to calculate the Euclidean distance between corresponding landmarks.
+    # You may customize this part based on your requirements.
+
+    # Example: Calculate the average Euclidean distance between corresponding landmarks.
+    num_landmarks = len(pose1)
+    total_distance = 0
+
+    for i in range(num_landmarks):
+        x1, y1, z1 = pose1[i]
+        x2, y2, z2 = pose2[i]
+
+        distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2)
+        total_distance += distance
+
+    average_distance = total_distance / num_landmarks
+
+    return average_distance

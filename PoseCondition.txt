@@ -19,10 +19,3 @@
         (right_shoulder_angle < 359 and right_shoulder_angle > 0) and
         (left_shoulder_angle < 359 and left_shoulder_angle > 2)) :
         label = 'Cross Arm'
-    
-    if((right_elbow_angle < 284 and right_elbow_angle > 205) and
-        (left_elbow_angle < 162 and left_elbow_angle > 88) and 
-        (right_shoulder_angle < 26 and right_shoulder_angle > 12) and
-        (left_shoulder_angle < 24 and left_shoulder_angle > 12)) :
-        label = 'Base'
-    

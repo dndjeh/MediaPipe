@@ -2,8 +2,16 @@ import os
 import cv2
 import mediapipe as mp
 import pandas as pd
-from Webcam_Pose_Condition_Txt import condition
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+import Pose_Condition_Txt as PCT
 from Calculate_Angle import calculateAngle  # Assuming you have a Calculate_Angle module
+import label_write
+
+#----------------------------------------- 자세 이름 작성하기
+label = label_write.label
+#-----------------------------------------
 
 mp_pose = mp.solutions.pose
 def extract_skeleton(image_path):
@@ -15,10 +23,8 @@ def extract_skeleton(image_path):
     image = cv2.imread(image_path)
     target_size = (640, 853)
     
-    #------------------------------------------
     #image = cv2.resize(image, target_size)
-    #------------------------------------------
-
+    
     # Convert BGR image to RGB
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     
@@ -80,7 +86,7 @@ def extract_skeleton(image_path):
     return landmarks, image, right_elbow_angle, left_elbow_angle, right_shoulder_angle, left_shoulder_angle, right_knee_angle, left_knee_angle
 
 
-def process_images(folder_path, output_csv, output_image_folder, label):
+def process_images(folder_path, output_csv, output_image_folder,label):
     '''관절의 각도를 csv파일로 정리하고, condition 함수를 불러서 조건문을 PoseCondition.txt로 저장해준다.'''
     data = []
     
@@ -130,10 +136,13 @@ def process_images(folder_path, output_csv, output_image_folder, label):
     df_result.to_csv(total_output_csv_path, index=False)    #mean, max, min을 저장하는 csv파일 생성
 
     #저장된 csv 파일에 값을 가져와서 조건문을 txt로 생성
-    condition(df_result)
-def save(label):
-    # 인풋 이미지 폴더 경로와 아웃 풋 이미지 폴더 경로 설정, 그리고 각 관절의 각도를 저장할 csv 파일 저장 경로
-    image_folder_path = f'{"../MediaPipe/Webcam_image/"+label+"/input_"+label}'
-    output_image_folder = f'{"../MediaPipe/Webcam_image/"+label+"/output_"+label}'
-    output_csv_path = '../MediaPipe/output_csv/angle.csv'
-    process_images(image_folder_path, output_csv_path, output_image_folder, label)
+    PCT.condition(df_result,label)
+
+
+# 인풋 이미지 폴더 경로와 아웃 풋 이미지 폴더 경로 설정, 그리고 각 관절의 각도를 저장할 csv 파일 저장 경로
+
+input_image_folder = '../MediaPipe/Direct_image_generate/input_image'
+output_image_folder = '../MediaPipe/Direct_image_generate/output_image'
+output_csv_path = '../MediaPipe/output_csv/angle.csv'
+
+process_images(input_image_folder, output_csv_path, output_image_folder,label)
