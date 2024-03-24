@@ -70,18 +70,18 @@ def Find_RB():
     len_repeat_poses=len(repeat_poses)
 
     num_repeat_poses=[0]*len_repeat_poses
+    bool_pose = [False]*len_repeat_poses    #반복동작 했냐 안했냐
 
     for i in range(0,len_repeat_poses-1):
         pose_difference = 0
         for j in range(i+1, len_repeat_poses):
             pose_difference = ca.calculatePoseDifference(repeat_poses[i], repeat_poses[j])
         
-        # 차이의 평균을 계산 -> 왜 평균을 낼까???
-        #average_difference = pose_difference / (N)
-        
         # 평균 차이가 일정 값 이하라면 반복되는 동작으로 간주
-            if pose_difference < difference_point2:  # 이 값은 임의로 설정
-                num_repeat_poses[i]+=1
-                print("반복 정도 차이", pose_difference)
+            if(bool_pose[j]==False):
+                if pose_difference < difference_point2:  # 이 값은 임의로 설정
+                        num_repeat_poses[i]+=1
+                        bool_pose[j]=True
+                        print("반복 정도 차이", pose_difference)
     
     print(num_repeat_poses)
