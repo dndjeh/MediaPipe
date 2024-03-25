@@ -80,8 +80,7 @@ def detectPose(image, pose, display=True):
       return output_image, landmarks
 
 def Detect_From_Video(filename):
-    video_file = filename
-    camera_video = cv2.VideoCapture(video_file)
+    camera_video = cv2.VideoCapture(filename)
         
         # Initialize a resizable window.
     cv2.namedWindow('Pose Classification', cv2.WINDOW_NORMAL)
@@ -105,9 +104,6 @@ def Detect_From_Video(filename):
                 
                 # Continue to the next iteration to read the next frame and ignore the empty camera frame.
                 continue
-            
-            # Flip the frame horizontally for natural (selfie-view) visualization.
-            frame = cv2.flip(frame, 1)
             
             # Get the width and height of the frame
             frame_height, frame_width, _ =  frame.shape
