@@ -81,7 +81,7 @@ def detectPose(image, pose, display=True):
 
 def Detect_From_Video(filename):
     video_file = filename
-    camera_video = cv2.VideoCapture(filename)
+    camera_video = cv2.VideoCapture(video_file)
         
         # Initialize a resizable window.
     cv2.namedWindow('Pose Classification', cv2.WINDOW_NORMAL)
@@ -171,5 +171,3 @@ def Detect_From_Video(filename):
     #     print(frame.shape)
     camera_video.release()
     cv2.destroyAllWindows()
-
-        
