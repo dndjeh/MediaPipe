@@ -13,17 +13,28 @@ def transcribe_file(speech_file: str) -> speech.RecognizeResponse:
     """Transcribe the given audio file."""
     client = speech.SpeechClient()
 
-    directory = 'result/' + speech_file
+    dir_path = str(os.getcwd())
+    cur_file_path = str(os.path.dirname(os.path.realpath(__file__)))
+    dir_path = cur_file_path.replace(dir_path+'\\', '')
+    
+    file_name = str(speech_file).replace(dir_path + '/audio/','').replace('.wav','')
+    print('file_name : ' + file_name)
+    directory = dir_path + '/result/srt/' + file_name
     if not os.path.exists(directory):  # 폴더가 존재하지 않으면
         os.makedirs(directory)  # 폴더를 생성합니다.
+    
+    directory_mono = dir_path + '/audio/mono'
+    if not os.path.exists(directory_mono):  # 폴더가 존재하지 않으면
+        os.makedirs(directory_mono)  # 폴더를 생성합니다.
 
     # Check if audio file is mono. If not, convert it to mono.
     sound = AudioSegment.from_wav(speech_file)
     if sound.channels != 1:
         print("Converting stereo audio to mono.")
         sound = sound.set_channels(1)
-        speech_file = directory + '/' + "mono_" + speech_file
+        speech_file = directory_mono + '/' + "mono_" + file_name
         sound.export(speech_file, format="wav")
+
 
     with open(speech_file, "rb") as audio_file:
         content = audio_file.read()
@@ -55,16 +66,26 @@ def transcribe_gcs_with_word_time_offsets(speech_file: str, ) -> speech.Recogniz
 
     client = speech.SpeechClient()
 
-    directory = 'result/' + speech_file
+    dir_path = str(os.getcwd())
+    cur_file_path = str(os.path.dirname(os.path.realpath(__file__)))
+    dir_path = cur_file_path.replace(dir_path+'\\', '')
+    
+    file_name = str(speech_file).replace(dir_path + '/audio/','').replace('.wav','')
+    print('file_name : ' + file_name)
+    directory = dir_path + '/result/srt/' + file_name
     if not os.path.exists(directory):  # 폴더가 존재하지 않으면
         os.makedirs(directory)  # 폴더를 생성합니다.
+    
+    directory_mono = dir_path + '/audio/mono'
+    if not os.path.exists(directory_mono):  # 폴더가 존재하지 않으면
+        os.makedirs(directory_mono)  # 폴더를 생성합니다.
 
     # Check if audio file is mono. If not, convert it to mono.
     sound = AudioSegment.from_wav(speech_file)
     if sound.channels != 1:
         print("Converting stereo audio to mono.")
         sound = sound.set_channels(1)
-        speech_file = directory + '/' + "mono_" + speech_file
+        speech_file = directory_mono + '/' + "mono_" + file_name
         sound.export(speech_file, format="wav")
 
 
@@ -84,7 +105,8 @@ def transcribe_gcs_with_word_time_offsets(speech_file: str, ) -> speech.Recogniz
     print("Waiting for operation to complete...")
     result = operation.result(timeout=90)
 
-    with open(speech_file + '_out.srt', 'w') as f:
+    srt_file = directory + '/' + file_name #str(speech_file).replace('mono_','')
+    with open(srt_file + '_srt.srt', 'w') as f:
         index = 1
         for result in result.results:
             alternative = result.alternatives[0]
@@ -117,12 +139,23 @@ def open_file_dialog():
     file_name = os.path.basename(file_path)
     file_label.config(text=file_name)
 
+    dir_path = str(os.getcwd())
+    cur_file_path = str(os.path.dirname(os.path.realpath(__file__)))
+    dir_path = cur_file_path.replace(dir_path+'\\', '')
+    #print('최종 dir_path : '+dir_path)
+    
+    directory = dir_path+'/audio/'
+    if not os.path.exists(directory):  # 폴더가 존재하지 않으면
+        os.makedirs(directory)  # 폴더를 생성합니다.
+        
     # 파일 확장자 확인
     file_extension = os.path.splitext(file_name)[1]
     # MP4 동영상에서 오디오 추출
     if file_extension.lower() != '.wav':
         audioclip = AudioFileClip(file_path)
         wav_filename = os.path.splitext(file_name)[0] + '.wav'
+        wav_filename = directory + wav_filename
+        #print('wav_filename : '+wav_filename)
         audioclip.write_audiofile(wav_filename)  # WAV 파일로 저장
     else:
         wav_filename = file_name
@@ -130,9 +163,9 @@ def open_file_dialog():
 
 def confirm():
     global wav_filename_copy
-    print("선택한 파일 : " + file_label.cget("text") + "\n변환된 음성 파일 : " + wav_filename_copy)
+    print("선택한 파일 : " + file_label.cget("text") + "\n변환된 음성 파일 경로 : " + wav_filename_copy)
     transcribe_gcs_with_word_time_offsets(wav_filename_copy) #file_label.cget("text")
-    transcribe_file(wav_filename_copy)
+    #transcribe_file(wav_filename_copy)
     root.quit()
 
 root = tk.Tk()
