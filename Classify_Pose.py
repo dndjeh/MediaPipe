@@ -3,7 +3,8 @@ import cv2
 import Calculate_Angle as ca
 import matplotlib.pyplot as plt
 
-def classifyPose(landmarks, output_image, mp_pose, display=False):
+
+def classifyPose(landmarks, output_image, mp_pose,filename, instance, display=False):
     '''자세 분류 함수, 자동완성 코드'''
     # Initialize the label of the pose. It is not known at this stage.
     label = 'Unknown Pose'
@@ -51,50 +52,71 @@ def classifyPose(landmarks, output_image, mp_pose, display=False):
                                     landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value],
                                     landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value])
                    
-    
-    if ((right_elbow_angle > 120 and right_elbow_angle < 160 and right_shoulder_angle > 30 and right_shoulder_angle < 80)
-        or (left_elbow_angle > 200 and left_elbow_angle < 230 and left_shoulder_angle > 30 and left_shoulder_angle < 80)):
-        label = 'Pointing Pose'
-                
-   
-    if left_knee_angle > 165 and left_knee_angle < 195 and right_knee_angle > 165 and right_knee_angle < 195:      
-        if left_elbow_angle > 100 and left_elbow_angle < 125 and right_elbow_angle > 230 and right_elbow_angle < 250:
-            label = 'Base Pose'
-    
-    if((right_elbow_angle < 250 and right_elbow_angle > 20) and
-        (left_elbow_angle < 312 and left_elbow_angle > 159) and 
+    if((right_elbow_angle < 55 and right_elbow_angle > 9) and
+        (left_elbow_angle < 180 and left_elbow_angle > 153) and 
+        (right_shoulder_angle < 46 and right_shoulder_angle > 14) and
+        (left_shoulder_angle < 23 and left_shoulder_angle > 6)) :
+        label = 'Hand_Forward'
+
+    if((right_elbow_angle < 358 and right_elbow_angle > 2) and
+        (left_elbow_angle < 28 and left_elbow_angle > 6) and 
+        (right_shoulder_angle < 37 and right_shoulder_angle > 16) and
+        (left_shoulder_angle < 34 and left_shoulder_angle > 18)) :
+        label = 'Hands_on_Chest'
+
+    if((right_elbow_angle < 50 and right_elbow_angle > 5) and
+        (left_elbow_angle < 358 and left_elbow_angle > 301) and 
         (right_shoulder_angle < 38 and right_shoulder_angle > 17) and
-        (left_shoulder_angle < 36 and left_shoulder_angle > 10)) :
-        label = 'attention'
+        (left_shoulder_angle < 37 and left_shoulder_angle > 19)) :
+        label = 'Attention'
     
-    if((right_elbow_angle < 343 and right_elbow_angle > 276) and
-        (left_elbow_angle < 86 and left_elbow_angle > 18) and 
-        (right_shoulder_angle < 359 and right_shoulder_angle > 0) and
-        (left_shoulder_angle < 359 and left_shoulder_angle > 2)) :
-        label = 'Cross Arm'
+    if((right_elbow_angle < 235 and right_elbow_angle > 182) and
+        (left_elbow_angle < 251 and left_elbow_angle > 210) and 
+        (right_shoulder_angle < 25 and right_shoulder_angle > 12) and
+        (left_shoulder_angle < 68 and left_shoulder_angle > 15)) :
+        label = 'Pointing_Pose'
 
 
+    idx = str(filename).replace('clip_','').replace('.mp4','')
+    idx = int(idx.split('/')[-1])
+    
     if label != 'Unknown Pose':
-        color = (0, 255, 0)  
+        color = (0, 255, 0)
+        
+        if label == instance.check_dict[idx]:  #등록된 라벨이랑 같은거
+            #instance.result_dict[idx] = 1
+            instance.temp_list.append(1)
+            print('idx : '+str(idx)+', 인식된 포즈(label) : '+label+', 키워드의 포즈(check_dict) : '+instance.check_dict[idx])
+
+        elif label != instance.check_dict[idx]:   #등록된 라벨이랑 다른거
+            #instance.result_dict[idx] = 2
+            instance.temp_list.append(2)
+            print('idx : '+str(idx)+', 인식된 포즈(label) : '+label+', 키워드의 포즈(check_dict)'+instance.check_dict[idx])
+    
+    else:   #아예 unknown으로
+            #instance.result_dict[idx] = 0
+            instance.temp_list.append(0)
+            print('idx : '+str(idx)+', 인식된 포즈(label) : '+label+', 키워드의 포즈(check_dict)'+instance.check_dict[idx])
     
    
-    cv2.putText(output_image, label, (10, 30), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, label, (10, 30), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
 
-    cv2.putText(output_image, "left_knee_angle: "+str(left_knee_angle), (10, 60), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-    cv2.putText(output_image, "right_knee_angle: "+str(right_knee_angle), (10, 90), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "left_knee_angle: "+str(left_knee_angle), (10, 60), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "right_knee_angle: "+str(right_knee_angle), (10, 90), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
 
-    cv2.putText(output_image, "left_elbow_angle: "+str(left_elbow_angle), (10, 120), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-    cv2.putText(output_image, "right_elbow_angle: "+str(right_elbow_angle), (10, 150), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "left_elbow_angle: "+str(left_elbow_angle), (10, 120), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "right_elbow_angle: "+str(right_elbow_angle), (10, 150), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
 
-    cv2.putText(output_image, "left_shoulder_angle: "+str(left_shoulder_angle), (10, 180), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-    cv2.putText(output_image, "right_shoulder_angle: "+str(right_shoulder_angle), (10, 210), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-
+    # cv2.putText(output_image, "left_shoulder_angle: "+str(left_shoulder_angle), (10, 180), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "right_shoulder_angle: "+str(right_shoulder_angle), (10, 210), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
    
-    if display:
+    # if display:
         
-        plt.figure(figsize=[640,640])
-        plt.imshow(output_image[:,:,::-1])
-        plt.title("Output Image")
-        plt.axis('off');
-    else :
-        return output_image, label
+    #     plt.figure(figsize=[640,640])
+    #     plt.imshow(output_image[:,:,::-1])
+    #     plt.title("Output Image")
+    #     plt.axis('off');
+    # else :
+    #     return output_image, label
+    
+    

@@ -3,7 +3,8 @@ import cv2
 import Calculate_Angle as ca
 import matplotlib.pyplot as plt
 
-def classifyPose(landmarks, output_image, mp_pose, display=False):
+
+def classifyPose(landmarks, output_image, mp_pose,filename, instance, display=False):
     '''자세 분류 함수, 자동완성 코드'''
     # Initialize the label of the pose. It is not known at this stage.
     label = 'Unknown Pose'
@@ -54,40 +55,58 @@ def classifyPose(landmarks, output_image, mp_pose, display=False):
     """
 
 #PoseCondition.txt 파일을 읽어서 condition_code에 저장한다.
-code_path = '..\MediaPipe\PoseCondition.txt'
+code_path = 'PoseCondition.txt'
 with open(code_path, 'r') as file:
     condition_code = file.read()
 
 after_code = """
 
+    idx = str(filename).replace('clip_','').replace('.mp4','')
+    idx = int(idx.split('/')[-1])
+    
     if label != 'Unknown Pose':
-        color = (0, 255, 0)  
+        color = (0, 255, 0)
+        
+        if label == instance.check_dict[idx]:  #등록된 라벨이랑 같은거
+            #instance.result_dict[idx] = 1
+            instance.temp_list.append(1)
+            print('idx : '+str(idx)+', 인식된 포즈(label) : '+label+', 키워드의 포즈(check_dict) : '+instance.check_dict[idx])
+
+        elif label != instance.check_dict[idx]:   #등록된 라벨이랑 다른거
+            #instance.result_dict[idx] = 2
+            instance.temp_list.append(2)
+            print('idx : '+str(idx)+', 인식된 포즈(label) : '+label+', 키워드의 포즈(check_dict)'+instance.check_dict[idx])
+    
+    else:   #아예 unknown으로
+            #instance.result_dict[idx] = 0
+            instance.temp_list.append(0)
+            print('idx : '+str(idx)+', 인식된 포즈(label) : '+label+', 키워드의 포즈(check_dict)'+instance.check_dict[idx])
     
    
-    cv2.putText(output_image, label, (10, 30), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, label, (10, 30), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
 
-    cv2.putText(output_image, "left_knee_angle: "+str(left_knee_angle), (10, 60), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-    cv2.putText(output_image, "right_knee_angle: "+str(right_knee_angle), (10, 90), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "left_knee_angle: "+str(left_knee_angle), (10, 60), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "right_knee_angle: "+str(right_knee_angle), (10, 90), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
 
-    cv2.putText(output_image, "left_elbow_angle: "+str(left_elbow_angle), (10, 120), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-    cv2.putText(output_image, "right_elbow_angle: "+str(right_elbow_angle), (10, 150), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "left_elbow_angle: "+str(left_elbow_angle), (10, 120), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "right_elbow_angle: "+str(right_elbow_angle), (10, 150), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
 
-    cv2.putText(output_image, "left_shoulder_angle: "+str(left_shoulder_angle), (10, 180), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-    cv2.putText(output_image, "right_shoulder_angle: "+str(right_shoulder_angle), (10, 210), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
-
+    # cv2.putText(output_image, "left_shoulder_angle: "+str(left_shoulder_angle), (10, 180), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
+    # cv2.putText(output_image, "right_shoulder_angle: "+str(right_shoulder_angle), (10, 210), cv2.FONT_HERSHEY_PLAIN, 2, color, 2)
    
-    if display:
+    # if display:
         
-        plt.figure(figsize=[640,640])
-        plt.imshow(output_image[:,:,::-1])
-        plt.title("Output Image")
-        plt.axis('off');
-    else :
-        return output_image, label
+    #     plt.figure(figsize=[640,640])
+    #     plt.imshow(output_image[:,:,::-1])
+    #     plt.title("Output Image")
+    #     plt.axis('off');
+    # else :
+    #     return output_image, label
+    
+    
 """
 
-
-def pose_detection(landmarks, output_image, mp_pose, display=False):
+def pose_detection(landmarks, output_image, mp_pose, filename, instance, display=False):
     full_code = before_code + condition_code + after_code   #모든 코드를 합친다.
 
     #위 full_code를 Classify_Pose.py파일로 만들어 준다.
@@ -96,4 +115,5 @@ def pose_detection(landmarks, output_image, mp_pose, display=False):
     
     #위에서 만든 Classify_Pose.py파일을 불러와서 main.py로 return 한다.
     from Classify_Pose import classifyPose
-    return classifyPose(landmarks, output_image, mp_pose, display=False)
+
+    classifyPose(landmarks, output_image, mp_pose, filename, instance, display=False)

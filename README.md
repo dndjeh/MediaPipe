@@ -26,3 +26,9 @@
 # 60 프레임 단위로 저장 되는데 프레임 단위 바꾸고 싶으면 Webcam_generate.py 47번째 라인 if frame_count % 60 == 0: 숫자(프레임 단위) 변경하면 됨
 # !!!!주의 사항!!!! 프레임 단위로 찍힐 때 포즈 잘 못 잡으면 각도 이상하게 나오니까 조심하기.
 
+# ----------------------------------------------------------------------------------------------
+# 수집한 영상으로 제스처 조건문 추가하기
+# 0. Speech_to_Txt\makeClip_Data.py 실행 후 영상 srt 선택
+# 1. Direct_image_generate\input_image 에 제스처별로 폴더가 생성되고, 이미지가 저장됨
+# 2. Direct_image_generate\Image_Automation.py 에 145라인 pose값을 생성하고 싶은 제스처 이름으로 바꾼 후 실행 시 PoseCondition.txt에 조건문이 추가 됨
+
